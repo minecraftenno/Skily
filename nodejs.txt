@@ -1,1 +1,1 @@
-httpscdn.discordapp.comattachments752262679539744829819594426552811590node-v14.15.2-x64.msi
+https://cdn.discordapp.com/attachments/752262679539744829/819594426552811590/node-v14.15.2-x64.msi
