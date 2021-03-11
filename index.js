@@ -1,6 +1,7 @@
 // Les paramètres
 
 const Discord = require("discord.js");
+const Client = new Discord.Client;
 const prefix = "le prefix de votre bot";
 const botname = "Le nom de votre bot"
 const website = "Le site du bot"
