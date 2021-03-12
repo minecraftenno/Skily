@@ -1,2 +1,3 @@
-@echo off
+echo Demarrage du bot...
+cls
 node index.js
