@@ -24,7 +24,7 @@ const helpEmbed = new Discord.MessageEmbed()
 	.setColor('#0099ff')
 	.setTitle(botname + ' - Liste des commandes')
 	.setURL(website)
-	.setDescription('**😆 Commandes fun:**\n`' + prefix + 'naruto`,`' + prefix + 'tamere`\n\n**👮‍♂️Commandes modération :**\n`' + prefix + 'clear`,`' + prefix + 'ban`\n\n**⚠️Commandes informatifs :**\n`' + prefix + 'ping`, `' + prefix + 'invite`')
+	.setDescription('**😆 Commandes fun:**\n`' + prefix + 'naruto`,`' + prefix + 'tamere`\n\n**👮‍♂️Commandes modération :**\n`' + prefix + 'clear`,`' + prefix + 'ban`,`' + prefix + 'kick`\n\n**⚠️Commandes informatifs :**\n`' + prefix + 'ping`, `' + prefix + 'invite`')
 	.setThumbnail('https://cdn.discordapp.com/attachments/818846408530460695/818870621178036274/defaultimage.png')
 	.setImage('https://cdn.discordapp.com/attachments/818846408530460695/818871160019615815/embedimage.png')
 	.setTimestamp()
@@ -40,7 +40,23 @@ Client.on("message", message => {
     if(message.content == prefix + "ping"){
         message.channel.send(`🏓Le ping du bot est de ${Date.now()-message.createdTimestamp}ms. Le ping de l'API est de ${Math.round(Client.ws.ping)}ms`);
     }
+// Commande [PREFIX]kick
+    if(message.content == prefix + "kick"){
+      let mention = message.mentions.members.first();
 
+      if(mention == undefined){
+        message.channel.send("Ce membre n'existe pas ou personne n'as été mentionné.");
+      }
+      else {
+        if(mention.kickable){
+          mention.kick
+          message.channel.send(mention.displayName + " a été kick avec succès !");
+        }
+        else {
+          message.channel.send("Vous ne pouvez pas bannir " + mention.displayName + " .")
+        }
+      }
+    }
 // Commande [PREFIX]help
     if(message.content == prefix + "help"){
         message.channel.send(helpEmbed);
@@ -161,6 +177,25 @@ Client.on("message", message => {
         
             message.channel.send(helpclear);
           }
+
+          if (command === 'help' && input === 'tamere') {
+            const helptamere = new Discord.MessageEmbed()
+              .setColor('#00B2B2')
+              .setTitle(`**Infos sur la commande ${prefix}tamere**`)
+              .setDescription(
+                `Cette commande permet d'envoyer des blagues sur les mères.`,
+              )
+              .setImage(
+                 `https://media1.tenor.com/images/637c51249474316ff5f4dc908a7fcbf9/tenor.gif?itemid=10711117`
+              )
+              .setFooter(
+                `Demandé par ${message.author.tag}`,
+                message.author.displayAvatarURL(),
+              )
+              .setTimestamp();
+        
+            message.channel.send(helptamere);
+          }
               //    La commande [PREFIX]help ban
          if (command === 'help' && input === 'ban') {
             const helpclear = new Discord.MessageEmbed()
@@ -180,7 +215,7 @@ Client.on("message", message => {
         
             message.channel.send(helpclear);
           }
-
+// La commande [PREFIX]ban
             if (message.content.startsWith(`${prefix}ban`)) {
               const args = message.content.slice(prefix.length).trim().split(' ');
               const command = args.shift().toLowerCase();
@@ -199,7 +234,7 @@ Client.on("message", message => {
                 })
                 
             }
-
+            // La commande [PREFIX]invite
             if (message.content.startsWith(`${prefix}invite`)) {
                 const inviteembed = new Discord.MessageEmbed()
                   .setColor('#00B2B2')
@@ -219,7 +254,65 @@ Client.on("message", message => {
                   message.author.send(inviteembed);
                   message.channel.send(`Je vous ai envoyé mon lien d'invitation en message privé ${message.author} !`)
               }
+
+              if (message.content.startsWith(`${prefix}getbot`)) {
+                const inviteembed = new Discord.MessageEmbed()
+                  .setColor('#00B2B2')
+                  .setTitle(`**Invitation**`)
+                  .setDescription(
+                    `Voici mon lien d'invitation : https://discord.com/oauth2/authorize?client_id=` + botid + `&scope=bot&permissions=2046258423`,
+                  )
+                  .setImage(
+                     `https://cdn.discordapp.com/emojis/739437486467579966.gif?v=1`
+                  )
+                  .setFooter(
+                    `Demandé par ${message.author.tag}`,
+                    message.author.displayAvatarURL(),
+                  )
+                  .setTimestamp();
+            
+                  message.channel.send(inviteembed);
+              }
+// La commande [PREFIX]help kick
+              if (command === 'help' && input === 'kick') {
+                const helpkick = new Discord.MessageEmbed()
+                  .setColor('#00B2B2')
+                  .setTitle(`**Infos sur la commande ${prefix}kick**`)
+                  .setDescription(
+                    `Cette commande permet de kick des personnes. Voici la syntaxe à suivre : ${prefix}kick __membre à kick__.`,
+                  )
+                  .setImage(
+                     `https://cdn.discordapp.com/emojis/755533155775021117.gif?v=1`
+                  )
+                  .setFooter(
+                    `Demandé par ${message.author.tag}`,
+                    message.author.displayAvatarURL(),
+                  )
+                  .setTimestamp();
+            
+                message.channel.send(helpkick);
+              }
+              // La commande [PREFIX]help ping
+              if (command === 'help' && input === 'ping') {
+                const helpkick = new Discord.MessageEmbed()
+                  .setColor('#00B2B2')
+                  .setTitle(`**Infos sur la commande ${prefix}ping**`)
+                  .setDescription(
+                    `Cette commande permet de verifier la latence (ou ping) du bot et de l'API de Discord.`,
+                  )
+                  .setImage(
+                     `https://cdn.discordapp.com/attachments/819885794872393728/819970142565040208/2859b7c99f56fe22827916c529ccac86.png`
+                  )
+                  .setFooter(
+                    `Demandé par ${message.author.tag}`,
+                    message.author.displayAvatarURL(),
+                  )
+                  .setTimestamp();
+            
+                message.channel.send(helpkick);
+              }
               
+              // La commande [PREFIX]tamere
               if (message.content.startsWith(prefix + "tamere")) {
 
                 // Liste des blagues
@@ -236,8 +329,9 @@ Client.on("message", message => {
                   ];
                   // Choisi une blague random dans la liste ci-dessus.
                   const response = tamere[Math.floor(Math.random() * tamere.length)];
-                  message.channel.send("Voici votre blague (ou peut être réalité 👀) <@" + message.author.id + "> : \n" + response);
-                 }
+                  message.channel.send("Voici votre blague <@" + message.author.id + "> : \n" + response);
+                 
+              }
       
 });
 
