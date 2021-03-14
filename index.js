@@ -332,6 +332,27 @@ Client.on("message", message => {
                   message.channel.send("Voici votre blague <@" + message.author.id + "> : \n" + response);
                  
               }
+              if (message.content.startsWith(prefix + 'avatar')) {
+                let user = message.mentions.users.first();
+                if(!user) user = message.author;
+                let color = message.member.displayHexColor;
+                if (color == '#000000') color = message.member.hoistRole.hexColor;
+                const embed = new Discord.MessageEmbed()
+                                .setImage("https://cdn.discordapp.com/avatars/"+user.id+"/"+user.avatar+".png")
+                                .setColor(color)
+                 message.channel.send({embed});
+              }
+              if (message.content.startsWith(prefix + 'gifavatar')) {
+                let user = message.mentions.users.first();
+                if(!user) user = message.author;
+                let color = message.member.displayHexColor;
+                if (color == '#000000') color = message.member.hoistRole.hexColor;
+                const embed = new Discord.MessageEmbed()
+                                .setImage("https://cdn.discordapp.com/avatars/"+user.id+"/"+user.avatar+".gif")
+                                .setColor(color)
+                 message.channel.send({embed});
+              }
+	
       
 });
 
