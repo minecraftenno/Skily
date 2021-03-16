@@ -6,8 +6,9 @@ const prefix = "le prefix de votre bot";
 const botname = "Le nom de votre bot"
 const statut = `Le statut du bot`
 const botid = `L'id du bot`
-const token = "Le token du bot"
-const supportserver = "Le support du bot" // //
+const token = "Le token du bot" 
+const supportserver = "Le support du bot" // Si vous n'en avez pas, merci de mettre votre site !
+const statuttype = "" // Liste des activities : COMPETING, LISTENING, PLAYING, WATCHING
 
 // Envoie un message dès que le bot est bien allumé
 Client.on("ready", () => {
@@ -15,7 +16,7 @@ Client.on("ready", () => {
 });
 
 Client.on("ready", () => {
-    Client.user.setActivity(statut, { type: "PLAYING" });
+    Client.user.setActivity(statut, { type: statuttype });
     });
 
 // Les embeds
