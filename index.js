@@ -4,10 +4,10 @@ const Discord = require("discord.js");
 const Client = new Discord.Client;
 const prefix = "le prefix de votre bot";
 const botname = "Le nom de votre bot"
-const website = "Le site du bot"
 const statut = `Le statut du bot`
 const botid = `L'id du bot`
 const token = "Le token du bot"
+const supportserver = "Le support du bot" // //
 
 // Envoie un message dès que le bot est bien allumé
 Client.on("ready", () => {
@@ -19,16 +19,15 @@ Client.on("ready", () => {
     });
 
 // Les embeds
-
 const helpEmbed = new Discord.MessageEmbed()
 	.setColor('#0099ff')
 	.setTitle(botname + ' - Liste des commandes')
-	.setURL(website)
-	.setDescription('**😆 Commandes fun:**\n`' + prefix + 'naruto`,`' + prefix + 'tamere`\n\n**👮‍♂️Commandes modération :**\n`' + prefix + 'clear`,`' + prefix + 'ban`,`' + prefix + 'kick`\n\n**⚠️Commandes informatifs :**\n`' + prefix + 'ping`, `' + prefix + 'invite`, `' + prefix + 'avatar`, `' + prefix + 'gifavatar`')
-	.setThumbnail('https://cdn.discordapp.com/attachments/818846408530460695/818870621178036274/defaultimage.png')
-	.setImage('https://cdn.discordapp.com/attachments/818846408530460695/818871160019615815/embedimage.png')
+	.setURL(supportserver)
+	.setDescription('**😆 Commandes fun:**\n`' + prefix + 'naruto`,`' + prefix + 'tamere`,`' + prefix + 'say`\n\n**👮‍♂️Commandes modération :**\n`' + prefix + 'clear`,`' + prefix + 'ban`,`' + prefix + 'kick`\n\n**⚠️Commandes informatifs :**\n`' + prefix + 'ping`, `' + prefix + 'invite`, `' + prefix + 'avatar`, `' + prefix + 'gifavatar`, `' + prefix + 'prefix`, `' + prefix + 'support`')
+	.setThumbnail('https://cdn.discordapp.com/emojis/813501311031050290.png?v=1')
+	.setImage('https://media1.tenor.com/images/e7ab03bac23eb9b3f5bd67ba27ca7b08/tenor.gif?itemid=18158245')
 	.setTimestamp()
-	.setFooter(botname + ' - Bot discord modération et fun !', 'https://cdn.discordapp.com/attachments/818846408530460695/818870621178036274/defaultimage.png');
+	.setFooter(botname + ' - Bot discord modération et fun !', 'https://cdn.discordapp.com/emojis/781666474611834921.png?v=1');
 
 
 // Les commandes
@@ -352,6 +351,32 @@ Client.on("message", message => {
                                 .setColor(color)
                  message.channel.send({embed});
               }
+              // La commande [PREFIX]prefix
+              if (message.content.startsWith(prefix + "prefix")) {
+                message.channel.send("Mon prefix est : `" + prefix + "`.")
+              }
+              // La commande [PREFIX]say <message>
+              if(message.content.startsWith(prefix + "say")) {
+                let sendMessage = message.content.substring(4);
+
+                let sendChannel = Client.channels.cache.get(message.channel.id);
+        
+                sendChannel.send("**<@" + message.author.id + ">** : " + sendMessage)
+                message.delete();
+              }
+              // La commande [PREFIX]support
+                if(message.content.startsWith(prefix + "support")) {
+                  const supportembed = new Discord.MessageEmbed()
+                  .setColor('#0099ff')
+                  .setTitle('Support de ' + botname)
+                  .setURL(supportserver)
+                  .setDescription('Voici le serveur support de ' + botname + " : " + supportserver)
+                  .setThumbnail('https://cdn.discordapp.com/emojis/790005127700152340.png?v=1')
+                  .setTimestamp()
+                  .setFooter('', 'https://cdn.discordapp.com/emojis/781666474611834921.png?v=1');
+                message.channel.send(supportembed)
+              }
+	
 	
       
 });
