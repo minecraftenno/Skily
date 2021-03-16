@@ -1,3 +1,2 @@
-echo Demarrage du bot...
-cls
 node index.js
+pause
