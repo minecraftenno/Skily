@@ -1,7 +1,7 @@
 // Les paramètres
 
 const Discord = require("discord.js");
-const Client = new Discord.Client;
+const Client = new Discord.Client({ ws: { properties: { $browser: "Discord iOS" }} }); // Enlever tout la ligne apres "Discord.Client" si vous ne voulez pas que votre bot s'affiche en mode mobile
 const prefix = "le prefix de votre bot";
 const botname = "Le nom de votre bot"
 const statut = `Le statut du bot`
