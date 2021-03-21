@@ -377,6 +377,27 @@ Client.on("message", message => {
                   .setFooter('', 'https://cdn.discordapp.com/emojis/781666474611834921.png?v=1');
                 message.channel.send(supportembed)
               }
+  if(message.content.startsWith(prefix + "serverinfo")) {
+    if(!message.member.hasPermission("MANAGE_GUILD")) {
+      return message.channel.send(`**${message.author.username}**, vous devez avoir la permission "\`MANAGE_GUILD\`" !`)
+    } else {
+      
+    const embed = new Discord.MessageEmbed()
+    .setAuthor(message.guild.name)
+    .setColor(3447003)
+    .setDescription(`Créateur : ${message.guild.owner.user.tag} (${message.guild.owner.id})`)
+    .setThumbnail(message.guild.iconURL())
+    .addField('Nombre de membres :', `${message.guild.memberCount}`, true)
+    .addField('Considéré AFK au bout de :', `${message.guild.afkTimeout / 60} minutes`, true)
+    .addField('Serveur en :', message.guild.region, true)
+    .addField('Créer le :', message.guild.createdAt.toLocaleString(), true)
+    .setTimestamp()
+    .setFooter(Client.user.username, Client.user.avatarURL);
+  
+    message.channel.send({embed});
+    };
+
+  }
 	
 	
       
