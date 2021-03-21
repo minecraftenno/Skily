@@ -377,6 +377,19 @@ Client.on("message", message => {
                   .setFooter('', 'https://cdn.discordapp.com/emojis/781666474611834921.png?v=1');
                 message.channel.send(supportembed)
               }
+              // La commande [PREFIX]embed <message>
+              if(message.content.startsWith(prefix + "embed")) {
+                let sendMessage = message.content.substring(7);
+                let sendChannel = Client.channels.cache.get(message.channel.id);
+                const embedSay = new Discord.MessageEmbed()
+                .setColor('#0099ff')
+                .setTitle('Message de ' + message.author.tag + " :")
+                .setDescription(sendMessage)
+
+                sendChannel.send(embedSay)
+                message.delete();
+              }
+	// La commande [PREFIX]serverinfo
   if(message.content.startsWith(prefix + "serverinfo")) {
     if(!message.member.hasPermission("MANAGE_GUILD")) {
       return message.channel.send(`**${message.author.username}**, vous devez avoir la permission "\`MANAGE_GUILD\`" !`)
