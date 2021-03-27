@@ -9,6 +9,7 @@ const botid = `L'id du bot`
 const token = "Le token du bot" 
 const supportserver = "Le support du bot" // Si vous n'en avez pas, merci de mettre votre site !
 const statuttype = "" // Liste des activities : COMPETING, LISTENING, PLAYING, WATCHING
+const newsping = "" // Liste des pings : @everyone, @here, <@&ROLE_ID>
 
 // Envoie un message dès que le bot est bien allumé
 Client.on("ready", () => {
@@ -24,7 +25,7 @@ const helpEmbed = new Discord.MessageEmbed()
 	.setColor('#0099ff')
 	.setTitle(botname + ' - Liste des commandes')
 	.setURL(supportserver)
-	.setDescription('**😆 Commandes fun:**\n`' + prefix + 'naruto`,`' + prefix + 'tamere`,`' + prefix + 'say`,`' + prefix + 'embed`\n\n**👮‍♂️Commandes modération :**\n`' + prefix + 'clear`,`' + prefix + 'ban`,`' + prefix + 'kick`,`' + prefix + 'serverinfo`\n\n**⚠️Commandes informatifs :**\n`' + prefix + 'ping`, `' + prefix + 'invite`, `' + prefix + 'avatar`, `' + prefix + 'gifavatar`, `' + prefix + 'prefix`, `' + prefix + 'support`')
+	.setDescription('**😆 Commandes fun:**\n`' + prefix + 'naruto`,`' + prefix + 'tamere`,`' + prefix + 'say`,`' + prefix + 'embed`\n\n**👮‍♂️Commandes modération :**\n`' + prefix + 'clear`,`' + prefix + 'ban`,`' + prefix + 'kick`,`' + prefix + 'serverinfo`,`' + prefix + 'news`\n\n**⚠️Commandes informatifs :**\n`' + prefix + 'ping`, `' + prefix + 'invite`, `' + prefix + 'avatar`, `' + prefix + 'gifavatar`, `' + prefix + 'prefix`, `' + prefix + 'support`')
 	.setThumbnail('https://cdn.discordapp.com/emojis/813501311031050290.png?v=1')
 	.setImage('https://media1.tenor.com/images/e7ab03bac23eb9b3f5bd67ba27ca7b08/tenor.gif?itemid=18158245')
 	.setTimestamp()
@@ -411,6 +412,29 @@ Client.on("message", message => {
     };
 
   }
+    
+            // La commande [PREFIX]news <message>
+              if(message.content.startsWith(prefix + "news")) {
+                if(!message.member.hasPermission("MANAGE_CHANNELS")) {
+                  return message.channel.send(`**${message.author.username}**, vous devez avoir la permission "\`MANAGE_CHANNELS\`" !`)
+                } else {
+                let newsMessage = message.content.substring(5);
+                let newsChannel = Client.channels.cache.get(message.channel.id);
+                const newsEmbed = new Discord.MessageEmbed()
+                .setColor('#0099ff')
+                .setTitle("News de " + message.guild.name + " !")
+                .setDescription(newsMessage)
+                .setFooter(botname)
+                .setTimestamp()
+                .setThumbnail(message.guild.iconURL())
+                newsChannel.send(newsping)
+                newsChannel.send(newsEmbed).then(function (message) {
+                  message.react("💪") // Mettez votre émoji personnalisé !
+                })
+                message.delete();
+            
+                }
+              }
 	
 	
       
