@@ -11,16 +11,20 @@ const supportserver = "Le support du bot" // Si vous n'en avez pas, merci de met
 const statuttype = "" // Liste des activities : COMPETING, LISTENING, PLAYING, WATCHING
 const newsping = "" // Liste des pings : @everyone, @here, <@&ROLE_ID>
 
+// Pas touche
+const talkedRecently = new Set();
+
 // Envoie un message dès que le bot est bien allumé
 Client.on("ready", () => {
     console.log("Bot allumé !");
 });
 
 Client.on("ready", () => {
-    Client.user.setActivity(statut, { type: statuttype });
+    Client.user.setActivity(statut,{type: statuttype}) 
     });
 
 // Les embeds
+
 const helpEmbed = new Discord.MessageEmbed()
 	.setColor('#0099ff')
 	.setTitle(botname + ' - Liste des commandes')
@@ -54,7 +58,7 @@ Client.on("message", message => {
           message.channel.send(mention.displayName + " a été kick avec succès !");
         }
         else {
-          message.channel.send("Vous ne pouvez pas bannir " + mention.displayName + " .")
+          message.channel.send("Vous ne pouvez pas kick " + mention.displayName + " .")
         }
       }
     }
@@ -333,6 +337,7 @@ Client.on("message", message => {
                   message.channel.send("Voici votre blague <@" + message.author.id + "> : \n" + response);
                  
               }
+              // La commande [PREFIX]avatar
               if (message.content.startsWith(prefix + 'avatar')) {
                 let user = message.mentions.users.first();
                 if(!user) user = message.author;
@@ -343,6 +348,7 @@ Client.on("message", message => {
                                 .setColor(color)
                  message.channel.send({embed});
               }
+              // La commande [PREFIX]gifavatar
               if (message.content.startsWith(prefix + 'gifavatar')) {
                 let user = message.mentions.users.first();
                 if(!user) user = message.author;
@@ -366,18 +372,6 @@ Client.on("message", message => {
                 sendChannel.send("**<@" + message.author.id + ">** : " + sendMessage)
                 message.delete();
               }
-              // La commande [PREFIX]support
-                if(message.content.startsWith(prefix + "support")) {
-                  const supportembed = new Discord.MessageEmbed()
-                  .setColor('#0099ff')
-                  .setTitle('Support de ' + botname)
-                  .setURL(supportserver)
-                  .setDescription('Voici le serveur support de ' + botname + " : " + supportserver)
-                  .setThumbnail('https://cdn.discordapp.com/emojis/790005127700152340.png?v=1')
-                  .setTimestamp()
-                  .setFooter('', 'https://cdn.discordapp.com/emojis/781666474611834921.png?v=1');
-                message.channel.send(supportembed)
-              }
               // La commande [PREFIX]embed <message>
               if(message.content.startsWith(prefix + "embed")) {
                 let sendMessage = message.content.substring(7);
@@ -390,7 +384,33 @@ Client.on("message", message => {
                 sendChannel.send(embedSay)
                 message.delete();
               }
-	// La commande [PREFIX]serverinfo
+              // La commande [PREFIX]support
+                if(message.content.startsWith(prefix + "support")) {
+                  const supportembed = new Discord.MessageEmbed()
+                  .setColor('#0099ff')
+                  .setTitle('Support de ' + botname)
+                  .setURL(supportserver)
+                  .setDescription('Voici le serveur support de ' + botname + " : " + supportserver)
+                  .setThumbnail('https://cdn.discordapp.com/emojis/790005127700152340.png?v=1')
+                  .setTimestamp()
+                  .setFooter('', 'https://cdn.discordapp.com/emojis/781666474611834921.png?v=1');
+                message.channel.send(supportembed)
+              }
+              if(message.content.startsWith(prefix + "nitro")) {
+                if (talkedRecently.has(message.author.id)) {
+                  message.channel.send("Veuillez attendre 1 minute avant de générer un autre nitro !");
+          } else {
+                message.channel.send("Nitro envoyé en MP !")
+                const nitro = new Discord.MessageEmbed()
+                .setDescription('Voici ton nitro bg : [https://discord.gift/AgPm36DaoEda65Sc](https://player.vimeo.com/video/346762373?app_id=122963&referrer=https%3A%2F%2Fwww.patreon.com%2F)')
+                message.author.send(nitro)
+      
+              talkedRecently.add(message.author.id);
+              setTimeout(() => {
+                talkedRecently.delete(message.author.id);
+              }, 60000);
+          }
+              }
   if(message.content.startsWith(prefix + "serverinfo")) {
     if(!message.member.hasPermission("MANAGE_GUILD")) {
       return message.channel.send(`**${message.author.username}**, vous devez avoir la permission "\`MANAGE_GUILD\`" !`)
@@ -410,33 +430,45 @@ Client.on("message", message => {
   
     message.channel.send({embed});
     };
+    // La commande [PREFIX]embed <message>
+    if(message.content.startsWith(prefix + "embed")) {
+      let sendMessage = message.content.substring(7);
+      let sendChannel = Client.channels.cache.get(message.channel.id);
+      const embedSay = new Discord.MessageEmbed()
+      .setColor('#0099ff')
+      .setTitle('Message de ' + message.author.tag + " :")
+      .setDescription(sendMessage)
+
+      sendChannel.send(embedSay)
+      message.delete();
+    }
+    
+    // La commande [PREFIX]news <message>
+    if(message.content.startsWith(prefix + "news")) {
+    if(!message.member.hasPermission("MANAGE_CHANNELS")) {
+    return message.channel.send(`**${message.author.username}**, vous devez avoir la permission "\`MANAGE_CHANNELS\`" !`)
+    } else {
+    let newsMessage = message.content.substring(5);
+    let newsChannel = Client.channels.cache.get(message.channel.id);
+    const newsEmbed = new Discord.MessageEmbed()
+    .setColor('#0099ff')
+    .setTitle("News de " + message.guild.name + " !")
+    .setDescription(newsMessage)
+    .setFooter(botname)
+    .setTimestamp()
+    .setThumbnail(message.guild.iconURL())
+    newsChannel.send(newsping)
+    newsChannel.send(newsEmbed).then(function (message) {
+    message.react("💪") // Mettez votre émoji personnalisé !
+    })
+    message.delete();}
+    }
+    
+    
+    
 
   }
-    
-            // La commande [PREFIX]news <message>
-              if(message.content.startsWith(prefix + "news")) {
-                if(!message.member.hasPermission("MANAGE_CHANNELS")) {
-                  return message.channel.send(`**${message.author.username}**, vous devez avoir la permission "\`MANAGE_CHANNELS\`" !`)
-                } else {
-                let newsMessage = message.content.substring(5);
-                let newsChannel = Client.channels.cache.get(message.channel.id);
-                const newsEmbed = new Discord.MessageEmbed()
-                .setColor('#0099ff')
-                .setTitle("News de " + message.guild.name + " !")
-                .setDescription(newsMessage)
-                .setFooter(botname)
-                .setTimestamp()
-                .setThumbnail(message.guild.iconURL())
-                newsChannel.send(newsping)
-                newsChannel.send(newsEmbed).then(function (message) {
-                  message.react("💪") // Mettez votre émoji personnalisé !
-                })
-                message.delete();
-            
-                }
-              }
-	
-	
+              
       
 });
 
