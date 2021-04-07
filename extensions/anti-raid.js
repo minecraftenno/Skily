@@ -39,7 +39,7 @@ client.on("message", message => {
       }
       
     //    La commande [PREFIX]help anti-raid
-    if (command === 'help' && input === 'anti-raid') {
+    if(message.content.startsWith(prefix + 'help anti-raid')) {
         const helpclear = new Discord.MessageEmbed()
           .setColor('#00B2B2')
           .setTitle(`**L'extension "anti-raid"**`)
