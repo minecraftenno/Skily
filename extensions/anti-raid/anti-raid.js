@@ -27,6 +27,10 @@ function is_url(str) {
 
   
 // STOP
+    
+client.on('guildMemberAdd', member => {
+  member.guild.channels.cache.get("819883054314684447").send(`${member} a rejoint le serveur. Nous sommes désormais ${member.guild.memberCount} ! 🎉`);
+})
 
 client.on("message", message => {
     if(message.author.bot) return;
@@ -35,28 +39,29 @@ client.on("message", message => {
 
     if (!message.member.hasPermission('MANAGE_MESSAGES')) {
       if (regex.exec(message.content)) 
-          await message.channel.send(
+          message.channel.send(
             "Désolé, mais le créateur de " + message.guild.name +" à désactiver les liens sur ce serveur"
           );
     }
-    
+
+
 if (!message.member.hasPermission('MANAGE_MESSAGES')) {
     // Verifie si le message envoyé à un lien à l'interieur
     if(is_url(message.content) === true) {
         // Supprime le message en question
         message.delete()
-        // Previent que vous avez activé le mode "antiraid"
+        // Previent que vous avez activé le mode "antilink"
         return message.channel.send("Désolé, mais le créateur de " + message.guild.name +" à désactiver les liens sur ce serveur.")
       }
     }
       
-    //    La commande [PREFIX]help anti-raid
-    if(message.content.startsWith(prefix + 'help anti-raid')) {
+    //    La commande [PREFIX]help anti-link
+    if(message.content.startsWith(prefix + 'help anti-link')) {
         const helpclear = new Discord.MessageEmbed()
           .setColor('#00B2B2')
-          .setTitle(`**L'extension "anti-raid"**`)
+          .setTitle(`**L'extension "anti-link"**`)
           .setDescription(
-            `Cette extension permet de protèger vos serveurs. Ce mode comprend : un anti-lien, un anti-spam, un raidmode etc...`,
+            `Cette extension permet de protèger vos serveurs. Ce mode comprend : un anti-lien et un anti-pub.`,
           )
           .setImage(
              `https://cdn.discordapp.com/emojis/753299199553962024.gif?v=1`
