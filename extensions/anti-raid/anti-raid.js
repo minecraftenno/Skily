@@ -29,7 +29,7 @@ function is_url(str) {
 client.on("message", message => {
     if(message.author.bot) return;
     if(message.channel.type == "dm") return;
-    
+    if (!message.member.hasPermission('MANAGE_MESSAGES')) {
     // Verifie si le message envoyé à un lien à l'interieur
     if(is_url(message.content) === true) {
         // Supprime le message en question
@@ -37,7 +37,7 @@ client.on("message", message => {
         // Previent que vous avez activé le mode "antiraid"
         return message.channel.send("Désolé, mais le créateur de " + message.guild.name +" à désactiver les liens sur ce serveur.")
       }
-      
+    }
     //    La commande [PREFIX]help anti-raid
     if(message.content.startsWith(prefix + 'help anti-raid')) {
         const helpclear = new Discord.MessageEmbed()
