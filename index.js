@@ -35,7 +35,6 @@ const helpEmbed = new Discord.MessageEmbed()
 	.setTimestamp()
 	.setFooter(botname + ' - Bot discord modération et fun !', 'https://cdn.discordapp.com/emojis/781666474611834921.png?v=1');
 
-
 // Les commandes
 Client.on("message", message => {
     if(message.author.bot) return;
@@ -66,10 +65,6 @@ Client.on("message", message => {
     if(message.content == prefix + "help"){
         message.channel.send(helpEmbed);
     }
-// Commande [PREFIX]stat
-    if(message.content == prefix + "stat"){
-        message.channel.send("**" + message.author.username + "** ||qui a pour ID : " + message.author.id + "|| a posté un message")
-    }  
 // Commande [PREFIX]naruto
     if (message.content.startsWith(prefix + "naruto")) {
 
