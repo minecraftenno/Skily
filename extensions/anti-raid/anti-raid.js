@@ -24,12 +24,23 @@ function is_url(str) {
     }
     
   }
+
+  
 // STOP
 
 client.on("message", message => {
     if(message.author.bot) return;
     if(message.channel.type == "dm") return;
+    const regex = /(https?:\/\/)?(www\.)?(discord\.(gg|io|me|li|club)|discordapp\.com\/invite|discord\.com\/invite)\/.+[a-z]/gi;
+
     if (!message.member.hasPermission('MANAGE_MESSAGES')) {
+      if (regex.exec(message.content)) 
+          await message.channel.send(
+            "Désolé, mais le créateur de " + message.guild.name +" à désactiver les liens sur ce serveur"
+          );
+    }
+    
+if (!message.member.hasPermission('MANAGE_MESSAGES')) {
     // Verifie si le message envoyé à un lien à l'interieur
     if(is_url(message.content) === true) {
         // Supprime le message en question
@@ -38,6 +49,7 @@ client.on("message", message => {
         return message.channel.send("Désolé, mais le créateur de " + message.guild.name +" à désactiver les liens sur ce serveur.")
       }
     }
+      
     //    La commande [PREFIX]help anti-raid
     if(message.content.startsWith(prefix + 'help anti-raid')) {
         const helpclear = new Discord.MessageEmbed()
